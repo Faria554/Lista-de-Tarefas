@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1 class="h1">Lista de Tarefas</h1>
+
+    <div class="container">
+        <div class="addTask">
+            <input type="text" placeholder="O que tens por fazer?">
+            <button>Adicionar</button>
+        </div>
+
+        <ol class="notCompleted">
+            <h3>Tarefas por fazer</h3>
+        </ol>
+
+        <ol class="Completed">
+            <h3>Tarefas completas</h3>
+        </ol>
+    </div>
+
+    <script>
+        //Variáveis para selecionar e manipular as os elementos input e button, pelas suas classes
+        const input = document.querySelector('input');
+        const btn = document.querySelector('.addTask > button');
+
+        //Evento ao clicar no botão, chamando um método
+        btn.addEventListener('click', addList);
+        input.addEventListener('keyup', (e) => {
+            (e.keyCode === 13 ? addList(e) : null);
+        })
+
+        //Método indicando todas as funcionalidades da app
+        function addList(e) {
+            //varáveis para manipular as classes da lista OL
+            const notCompleted = document.querySelector('.notCompleted');
+            const Completed = document.querySelector('.Completed');
+
+            //Variáveis para criar novos elementos (após o click no botão)
+            const newLi = document.createElement('li');
+            const checkBtn = document.createElement('button');
+            const deleteBtn = document.createElement('button');
+
+            //Ícones para os novos elementos acima criados, Código interno.
+            checkBtn.innerHTML = '<i class="fa fa-check"></i>';
+            deleteBtn.innerHTML = '<i class="fa fa-trash">';
+
+            //Condição ao introduzir o texto    
+            if (input.value !== '') {
+                newLi.textContent = input.value;
+                input.value = '';
+                notCompleted.appendChild(newLi);
+                newLi.appendChild(checkBtn);
+                newLi.appendChild(deleteBtn);
+            }
+
+            //Evento ao clicar no botão check
+            checkBtn.addEventListener('click', function() {
+                const parent = this.parentNode;
+                parent.remove();
+                Completed.appendChild(parent);
+                checkBtn.style.display = 'none';
+            });
+
+            //Evento ao clicar no botão Delete
+            deleteBtn.addEventListener('click', function() {
+                const parent = this.parentNode;
+                parent.remove();
+            });
+        }
+    </script>
+
+</body>
+
+</html>
